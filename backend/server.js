@@ -1,6 +1,9 @@
 import express from "express";
 import dotEnv from 'dotenv';
 import connectDb from './config/db.js';
+import uploadRoutes from './routes/uploadRoute.js';
+import chefRoutes from './routes/chefRoutes.js';
+import path from 'path';
 
 dotEnv.config();
 connectDb();
@@ -8,6 +11,12 @@ const app = express()
 app.use ( express.json());
 
 const Port = 8080;
+
+app.use('/api/chef',chefRoutes)
+app.use('/api/upload',uploadRoutes)
+
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.get('/', (req, res) => {
     res.send('API is running....');
