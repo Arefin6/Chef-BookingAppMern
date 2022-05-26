@@ -3,12 +3,14 @@ import dotEnv from 'dotenv';
 import connectDb from './config/db.js';
 import uploadRoutes from './routes/uploadRoute.js';
 import chefRoutes from './routes/chefRoutes.js';
+import cors from 'cors';
 import path from 'path';
 
 dotEnv.config();
 connectDb();
 const app = express()
-app.use ( express.json());
+app.use (cors());
+app.use(express.json())
 
 const Port = 8080;
 
