@@ -3,9 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
+
 import DashBoard from "./pages/DashBoard";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
+import {Register} from "./pages/Register";
 
 function App() {
   return (

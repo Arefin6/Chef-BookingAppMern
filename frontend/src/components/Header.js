@@ -1,8 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 const Header = () => {
+  // const [data,setData] = useState(null)
   const handleLogout = () => {};
+   
+  const userInfo =  sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')):null
+
+  console.log(userInfo)
+
 
   return (
     <header>
@@ -26,11 +33,17 @@ const Header = () => {
                )
             } */}
             {
-              <NavDropdown title="username" id="userAdmin">
+              userInfo?( 
+              <NavDropdown title={userInfo?.name} id="userAdmin">
                 <NavDropdown.Item onClick={handleLogout}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
+              )
+              :
+              (
+                <h1>f</h1>
+              )
             }
           </Nav>
         </Container>

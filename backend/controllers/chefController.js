@@ -96,7 +96,7 @@ const registerChef = asyncHandler(async(req,res)=>{
             _id:chef.id,
             name:chef.name,
             email:chef.email,
-            token:generateAuthToken(user._id)
+            token:generateAuthToken(chef._id)
          })
      }
      else{
