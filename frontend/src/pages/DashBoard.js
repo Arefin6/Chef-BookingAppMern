@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
 import Sidebar from '../components/Sidebar';
+import api from '../api';
 
 const DashBoard = () => {
+
+    const [counts,setCounts] = useState({})  
+
+    useEffect(()=>{
+      
+       const fetchCount = async() =>{
+        const response = await api.get('/api/count');
+        setCounts(response.data);
+       }
+       fetchCount()
+    },[])
+
+
     return (
         <Row>
             <Col md={2}>
@@ -13,7 +27,7 @@ const DashBoard = () => {
                   <Card.Body>
                     <Card.Title className='text-primary'>Num of Chefs</Card.Title>
                     <Card.Text className='text-primary'>
-                       0
+                       {counts.chefCount}
                    </Card.Text>
                   </Card.Body>
                 </Card>
@@ -23,7 +37,7 @@ const DashBoard = () => {
                   <Card.Body>
                     <Card.Title className='text-secondary'>Num of Slots </Card.Title>
                     <Card.Text className='text-secondary'>
-                       0
+                      {counts.slotsCount}
                    </Card.Text>
                   </Card.Body>
                 </Card>
@@ -43,7 +57,7 @@ const DashBoard = () => {
                   <Card.Body>
                     <Card.Title className='text-warning'>Number of Bookings </Card.Title>
                     <Card.Text className='text-warning'>
-                       0
+                       {counts.BookingsCount}
                    </Card.Text>
                   </Card.Body>
                 </Card>

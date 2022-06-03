@@ -5,6 +5,7 @@ import uploadRoutes from './routes/uploadRoute.js';
 import chefRoutes from './routes/chefRoutes.js';
 import cors from 'cors';
 import path from 'path';
+import {countDocuments} from './controllers/countDocument.js';
 
 dotEnv.config();
 connectDb();
@@ -16,6 +17,8 @@ const Port = 8080;
 
 app.use('/api/chef',chefRoutes)
 app.use('/api/upload',uploadRoutes)
+
+app.get('/api/count',countDocuments);
 
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))

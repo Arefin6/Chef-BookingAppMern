@@ -1,21 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React from "react";
+import React, { useContext } from "react";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
 
 const Header = () => {
-  // const [data,setData] = useState(null)
-  const handleLogout = () => {};
+  const history = useNavigate();
+  const handleLogout = () => {
+    sessionStorage.removeItem('userInfo');
+    history('/');
+  };
    
-  const userInfo =  sessionStorage.getItem('userInfo') ? JSON.parse(sessionStorage.getItem('userInfo')):null
-
-  console.log(userInfo)
-
+  const value = useContext(AuthContext);
 
   return (
     <header>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">ChefHouse</Navbar.Brand>
+          <Navbar.Brand href="/dashboard">ChefHouse</Navbar.Brand>
 
           <Nav className="ml-auto">
             {/* <Nav.Link href="/cart"><i className="fas fa-shopping-cart pr-2"></i>Cart</Nav.Link>
@@ -33,17 +35,13 @@ const Header = () => {
                )
             } */}
             {
-              userInfo?( 
-              <NavDropdown title={userInfo?.name} id="userAdmin">
+              value.userData && 
+              <NavDropdown title={value.userData?.name} id="userAdmin">
                 <NavDropdown.Item onClick={handleLogout}>
                   Logout
                 </NavDropdown.Item>
               </NavDropdown>
-              )
-              :
-              (
-                <h1>f</h1>
-              )
+              
             }
           </Nav>
         </Container>

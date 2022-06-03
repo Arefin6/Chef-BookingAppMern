@@ -23,6 +23,11 @@ const chefSchema = mongoose.Schema({
     details:{
         type:String,
         required:true
+    },
+    emailVerified:{
+        type:Boolean,
+        required:true,
+        default:false
     }
  },{
    timestamps:true 

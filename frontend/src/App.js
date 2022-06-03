@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 
 import DashBoard from "./pages/DashBoard";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
-import {Register} from "./pages/Register";
+import { Register } from "./pages/Register";
 
 function App() {
   return (
@@ -19,9 +19,9 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              <PrivateRoute>
-                <DashBoard />
-              </PrivateRoute>
+                <PrivateRoute>
+                  <DashBoard />
+                </PrivateRoute>
             }
           />
         </Routes>

@@ -12,10 +12,7 @@ const useAuth = () =>{
    else{
        auth = false
    }
-
   return auth
-
 }
-
 
 export default useAuth;

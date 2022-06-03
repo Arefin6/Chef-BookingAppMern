@@ -15,10 +15,10 @@ const Login = () => {
           const result =  await api.post('/api/chef/signIn',{email,password})
 
            if(result){
-            sessionStorage.setItem('userInfo',JSON.stringify(result.data))
+            await sessionStorage.setItem('userInfo',JSON.stringify(result.data))
             history('/dashboard')
+            window.location.reload()
            }
-
          } catch (error) {
              console.log(error)
          } 
