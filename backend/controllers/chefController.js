@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import generateAuthToken from '../utilites/generateAuthToken.js'
+import Slot from './../models/Solts.js';
 import Chef from './../models/ChefModel.js';
 
 

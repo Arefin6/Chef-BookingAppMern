@@ -1,10 +1,6 @@
 import  mongoose  from 'mongoose'
 
 const slotSchema = mongoose.Schema({
-    WeekDays:{
-        type:String,
-        required:true
-    },
     Date:{
         type:String,
         required:true
