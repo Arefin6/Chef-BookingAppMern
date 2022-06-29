@@ -8,9 +8,8 @@ const DashBoard = () => {
     const [counts,setCounts] = useState({})  
 
     useEffect(()=>{
-      
-       const fetchCount = async() =>{
-        const response = await api.get('/api/count');
+        const fetchCount = async() =>{
+        const response = await api.get('/count');
         setCounts(response.data);
        }
        fetchCount()

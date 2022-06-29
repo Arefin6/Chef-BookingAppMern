@@ -7,6 +7,8 @@ import Login from "./pages/Login";
 import DashBoard from "./pages/DashBoard";
 import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { Register } from "./pages/Register";
+import { SlotProvider } from "./Context/SlotsContexnt";
+import Slots from './pages/Slots';
 
 function App() {
   return (
@@ -22,6 +24,16 @@ function App() {
                 <PrivateRoute>
                   <DashBoard />
                 </PrivateRoute>
+            }
+          />
+          <Route
+            path="/slots"
+            element={
+                <SlotProvider>
+                    <PrivateRoute>
+                      <Slots />
+                   </PrivateRoute>
+                </SlotProvider>   
             }
           />
         </Routes>

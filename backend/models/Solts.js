@@ -2,7 +2,7 @@ import  mongoose  from 'mongoose'
 
 const slotSchema = mongoose.Schema({
     Date:{
-        type:String,
+        type:Date,
         required:true
     },
     Time:{
