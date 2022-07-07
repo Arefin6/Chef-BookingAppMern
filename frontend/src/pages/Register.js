@@ -26,7 +26,7 @@ export const Register = () => {
         },
       };
 
-      const { data } = await api.post("/api/upload", formData, config);
+      const { data } = await api.post("/upload", formData, config);
 
       setImage(data);
       setUploading(false);
@@ -39,7 +39,7 @@ export const Register = () => {
   const handelSubmit = async (e) => {
     e.preventDefault();
     try {
-      const result = await api.post("/api/chef/register", {
+      const result = await api.post("/chef/register", {
         name,
         email,
         password,

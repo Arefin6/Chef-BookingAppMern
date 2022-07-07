@@ -12,6 +12,9 @@ const Sidebar = () => {
                 <Link to='/slots' className='sidebar-link text-white'>Slots</Link>
                </li>
                <li>
+                <Link to='/add-slots' className='sidebar-link text-white'>Add Slots</Link>
+               </li>
+               <li>
                <Link to='/bookings' className='sidebar-link text-white'>Bookings</Link>
                </li>
            </ul>

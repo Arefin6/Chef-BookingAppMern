@@ -9,6 +9,7 @@ import PrivateRoute from "./PrivateRoute/PrivateRoute";
 import { Register } from "./pages/Register";
 import { SlotProvider } from "./Context/SlotsContexnt";
 import Slots from './pages/Slots';
+import AddSlots from "./pages/AddSlots";
 
 function App() {
   return (
@@ -32,6 +33,16 @@ function App() {
                 <SlotProvider>
                     <PrivateRoute>
                       <Slots />
+                   </PrivateRoute>
+                </SlotProvider>   
+            }
+          />
+           <Route
+            path="/add-slots"
+            element={
+                <SlotProvider>
+                    <PrivateRoute>
+                      <AddSlots />
                    </PrivateRoute>
                 </SlotProvider>   
             }

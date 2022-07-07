@@ -12,7 +12,7 @@ const Login = () => {
      const submitHandler = async (e)=>{
         e.preventDefault()
          try {
-          const result =  await api.post('/api/chef/signIn',{email,password})
+          const result =  await api.post('/chef/signIn',{email,password})
 
            if(result){
             await sessionStorage.setItem('userInfo',JSON.stringify(result.data))

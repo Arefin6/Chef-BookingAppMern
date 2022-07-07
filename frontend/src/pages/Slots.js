@@ -29,7 +29,7 @@ const Slots = () => {
                              {data._id}
                            </td>
                            <td>
-                             {data.Date.substring(0,10)}
+                             {data.Date.substring(0,15)} 
                            </td>
                            <td>
                              {data.Time}

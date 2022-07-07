@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useState } from 'react';
 import { useEffect } from 'react';
 import axios from './../api/index';
@@ -6,11 +7,18 @@ import axios from './../api/index';
 
  const SlotProvider = (props) => {
     const [slots,setSlots] = useState([]);
+    const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+
+    const config = {
+      headers:{
+         id:userInfo._id
+      }
+  }
 
     useEffect(()=>{
-       axios.get('/slots/getAll')
+       axios.get('/slots/getAll',config)
        .then(res => setSlots(res))
-    },[slots])
+    },[slots,config])
 
     const values = {slots}
 

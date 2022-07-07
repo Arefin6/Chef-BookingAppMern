@@ -3,7 +3,7 @@ import Slot from "../models/Solts.js";
 
 const getAllSlots = asyncHandler(async(req,res)=>{
 
-    const slots = await Slot.find({})
+    const slots = await Slot.find({chef:req.headers.id})
      
     res.send(slots)
     
