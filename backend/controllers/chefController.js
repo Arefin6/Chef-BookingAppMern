@@ -2,25 +2,64 @@ import asyncHandler from 'express-async-handler'
 import generateAuthToken from '../utilites/generateAuthToken.js'
 import Slot from './../models/Solts.js';
 import Chef from './../models/ChefModel.js';
+import Token from './../models/token.js';
+import { verificationEmail } from '../utilites/sendMail.js';
+import crypto from 'crypto';
 
 
 const authUser = asyncHandler(async(req,res)=>{
     const {email,password} = req.body
 
-    const chef = await Chef.findOne({email})
+    try {
+        const chef = await Chef.findOne({email})
+        if (!chef)
+			return res.status(401).send({ message: "Invalid Email or Password" }); 
 
-    if(chef && (await chef.matchPassword(password))){
-        res.send({
-            _id:chef.id,
-            name:chef.name,
-            email:chef.email,
-            token:generateAuthToken(chef._id)
-        })
+        const validPassword = await matchPassword(password);
+        if (!validPassword)
+			return res.status(401).send({ message: "Invalid Email or Password" })
+            
+            if (!chef.emailVerified) {
+                let token = await Token.findOne({ userId: chef._id });
+                if (!token) {
+                    token = await new Token({
+                        userId: user._id,
+                        token: crypto.randomBytes(32).toString("hex"),
+                    }).save();
+                    const url = `${process.env.BASE_URL}users/${chef.id}/verify/${token.token}`;
+                    await verificationEmail(chef.email, "Verify Email", url);
+                }
+    
+                return res
+                    .status(400)
+                    .send({ message: "An Email sent to your account please verify" });
+            }
+		    res.status(200).
+            res.send({
+                _id:chef.id,
+                name:chef.name,
+                email:chef.email,
+                token:generateAuthToken(chef._id)
+            })       
+
+    } catch (error) {
+        res.status(500).send({ message: "Internal Server Error" });
     }
-    else{
-        res.status(401).send({message:"Invalid UserName Or Password"})
-        // throw new Error('Invalid email or password')
-    }
+
+    
+
+    // if(chef && (await chef.matchPassword(password))){
+    //     res.send({
+    //         _id:chef.id,
+    //         name:chef.name,
+    //         email:chef.email,
+    //         token:generateAuthToken(chef._id)
+    //     })
+    // }
+    // else{
+    //     res.status(401).send({message:"Invalid UserName Or Password"})
+    //     // throw new Error('Invalid email or password')
+    // }
 
 })
 
@@ -73,15 +112,16 @@ const authUser = asyncHandler(async(req,res)=>{
 //Register User
 
 const registerChef = asyncHandler(async(req,res)=>{
-     
+
+    try{
     const {name,email,password,profilePicture,details} = req.body
 
     const chefExits = await Chef.findOne({email})
       
      if(chefExits){
-         res.status(400)
-        
-         throw new Error('Chef already exists')
+        return res
+        .status(409)
+        .send({ message: "User with given email already Exist!" });
      }
 
      const chef = await Chef.create({
@@ -92,20 +132,45 @@ const registerChef = asyncHandler(async(req,res)=>{
          details
      })
 
-     if(chef){
-         res.status(201).json({
-            _id:chef.id,
-            name:chef.name,
-            email:chef.email,
-            token:generateAuthToken(chef._id)
-         })
-     }
-     else{
-         res.status(400)
-         throw new Error('Invalid user data')
-     }
+     const token = await new Token({
+        userId: chef._id,
+        token: crypto.randomBytes(32).toString("hex"),
+    }).save();
+    const url = `${process.env.BASE_URL}users/${chef.id}/verify/${token.token}`;
+    await verificationEmail(chef.email, "Verify Email", url);
+
+    res
+        .status(201)
+        .send({ message: "An Email sent to your account please verify" });
+    } 
+    catch (error) {
+            console.log(error);
+            res.status(500).send({ message: "Internal Server Error" });
+    }    
 
 })
+
+
+const verifyToken = asyncHandler(async(req,res)=>{
+    try {
+		const chef = await Chef.findOne({ _id: req.params.id });
+		if (!chef) return res.status(400).send({ message: "Invalid link" });
+
+		const token = await Token.findOne({
+			userId: chef._id,
+			token: req.params.token,
+		});
+		if (!token) return res.status(400).send({ message: "Invalid link" });
+
+		await Chef.updateOne({ _id: chef._id, emailVerified: true });
+		await token.remove();
+
+		res.status(200).send({ message: "Email verified successfully" });
+	} catch (error) {
+		res.status(500).send({ message: "Internal Server Error" });
+	}
+})
+
 
 //get All User For ADmin
 
@@ -178,4 +243,4 @@ const registerChef = asyncHandler(async(req,res)=>{
 
 
 
-export {authUser,registerChef}
+export {authUser,registerChef,verifyToken}
