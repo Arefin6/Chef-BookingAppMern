@@ -34,13 +34,16 @@ const authUser = asyncHandler(async(req,res)=>{
                     .status(400)
                     .send({ message: "An Email sent to your account please verify" });
             }
-		    res.status(200).
-            res.send({
-                _id:chef.id,
-                name:chef.name,
-                email:chef.email,
-                token:generateAuthToken(chef._id)
-            })       
+            else{
+                res.status(200).
+                res.send({
+                    _id:chef.id,
+                    name:chef.name,
+                    email:chef.email,
+                    token:generateAuthToken(chef._id)
+                })  
+            }
+		         
 
     } catch (error) {
         res.status(500).send({ message: "Internal Server Error" });

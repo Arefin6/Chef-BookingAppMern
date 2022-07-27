@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import api from "../api";
+import Message from "../components/Message";
 
 export const Register = () => {
   const [name, setName] = useState("");
@@ -10,7 +11,8 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [uploading, setUploading] = useState(false);
   const [bio,setBio] = useState()
-  const history = useNavigate();
+  const [msg, setMsg] = useState("");
+  const [error, setError] = useState("");
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -46,21 +48,22 @@ export const Register = () => {
         profilePicture:image,
         details:bio
       });
+      if(result){
+        setMsg(result.data.message)
+        setError("")
+      } 
 
-      if (result) {
-        sessionStorage.setItem("userInfo", JSON.stringify(result.data));
-        history("/dashboard");
-      }
     } catch (error) {
       console.log(error);
+      setError(error.response.data.message)
+      setMsg("")
     }
   };
-
   return (
     <Container>
       <h1>Sign Up</h1>
-      {/* {error && <Message variant="danger">{error}</Message>}
-            {loading && <Loader></Loader>} */}
+       {error && <Message variant="danger">{error}</Message>}
+       {msg && <Message variant="success">{msg}</Message>}
       <Form onSubmit={handelSubmit}>
         <Form.Group controlId="name">
           <Form.Label>Name:</Form.Label>
