@@ -10,6 +10,7 @@ import { Register } from "./pages/Register";
 import { SlotProvider } from "./Context/SlotsContexnt";
 import Slots from './pages/Slots';
 import AddSlots from "./pages/AddSlots";
+import EmailVerify from "./components/EmailVerify";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
                 </SlotProvider>   
             }
           />
+          <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
         </Routes>
       </main>
       <Footer />

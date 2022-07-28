@@ -165,12 +165,13 @@ const verifyToken = asyncHandler(async(req,res)=>{
 		});
 		if (!token) return res.status(400).send({ message: "Invalid link" });
 
-		await Chef.updateOne({ _id: chef._id, emailVerified: true });
+		await Chef.updateOne({_id:chef._id}, { $set: {emailVerified:true}}) ;
 		await token.remove();
 
 		res.status(200).send({ message: "Email verified successfully" });
 	} catch (error) {
-		res.status(500).send({ message: "Internal Server Error" });
+        console.log(error)
+        res.status(500).send({ message: "Internal Server Error"});
 	}
 })
 
