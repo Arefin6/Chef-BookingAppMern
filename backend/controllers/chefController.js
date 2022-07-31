@@ -15,7 +15,7 @@ const authUser = asyncHandler(async(req,res)=>{
         if (!chef)
 			return res.status(401).send({ message: "Invalid Email or Password" }); 
 
-        const validPassword = await matchPassword(password);
+        const validPassword = await chef.matchPassword(password);
         if (!validPassword)
 			return res.status(401).send({ message: "Invalid Email or Password" })
             
@@ -23,7 +23,7 @@ const authUser = asyncHandler(async(req,res)=>{
                 let token = await Token.findOne({ userId: chef._id });
                 if (!token) {
                     token = await new Token({
-                        userId: user._id,
+                        userId: chef._id,
                         token: crypto.randomBytes(32).toString("hex"),
                     }).save();
                     const url = `${process.env.BASE_URL}users/${chef.id}/verify/${token.token}`;
@@ -36,7 +36,7 @@ const authUser = asyncHandler(async(req,res)=>{
             }
             else{
                 res.status(200).
-                res.send({
+                send({
                     _id:chef.id,
                     name:chef.name,
                     email:chef.email,
@@ -46,6 +46,7 @@ const authUser = asyncHandler(async(req,res)=>{
 		         
 
     } catch (error) {
+        console.log(error)
         res.status(500).send({ message: "Internal Server Error" });
     }
 

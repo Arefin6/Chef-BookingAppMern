@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import {Link, useNavigate} from 'react-router-dom';
 import api from '../api';
+import Message from '../components/Message';
 
 
 const Login = () => {
      const [email,setEmail] = useState('')
      const [password,setPassword] = useState('')
+     const [error, setError] = useState("");
      const history = useNavigate();
 
      const submitHandler = async (e)=>{
@@ -20,14 +22,15 @@ const Login = () => {
             window.location.reload()
            }
          } catch (error) {
+             setError(error.response.data.message)
              console.log(error)
          } 
-        
         
       } 
     return (
         <Container>
             <h1>Sign In</h1>
+            {error && <Message>{error}</Message>}
             <Form onSubmit={submitHandler}>
                <Form.Group controlId="email">
                    <Form.Label>Email Address:</Form.Label>
