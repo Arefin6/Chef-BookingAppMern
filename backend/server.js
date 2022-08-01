@@ -4,6 +4,7 @@ import connectDb from './config/db.js';
 import uploadRoutes from './routes/uploadRoute.js';
 import chefRoutes from './routes/chefRoutes.js';
 import slotRoutes from './routes/soltsRoute.js';
+import passwordResetRoutes from './routes/passwordResetRoute.js';
 import cors from 'cors';
 import path from 'path';
 import {countDocuments} from './controllers/countDocument.js';
@@ -17,6 +18,7 @@ app.use(express.json())
 const Port = 8080;
 
 app.use('/api/chef',chefRoutes)
+app.use('/api/passReset',passwordResetRoutes)
 app.use('/api/slots',slotRoutes)
 app.use('/api/upload',uploadRoutes)
 app.get('/api/count',countDocuments);

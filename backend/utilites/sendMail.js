@@ -1,7 +1,6 @@
 import nodeMailer from 'nodemailer';
 
 const verificationEmail = async(email,subject,text) =>{
-
    try {
     const transporter = nodeMailer.createTransport({
 			host: process.env.HOST,
