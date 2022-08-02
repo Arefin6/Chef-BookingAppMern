@@ -29,4 +29,51 @@ const sendPasswordLink = asyncHandler(async(req,res)=>{
     }
 })
 
-export {sendPasswordLink}
+//Verify Password password reset link
+
+const verifyPasswordResetLink = asyncHandler(async(req,res)=>{
+    try {
+		const chef = await Chef.findOne({ _id: req.params.id });
+		if (!chef) return res.status(400).send({ message: "Invalid link" });
+
+		const token = await Token.findOne({
+			userId: chef._id,
+			token: req.params.token,
+		});
+		if (!token) return res.status(400).send({ message: "Invalid link" });
+
+		res.status(200).send("Valid Url");
+	} catch (error) {
+        console.log(error);
+		res.status(500).send({ message: "Internal Server Error" });
+	}
+})
+
+//set new Password
+
+const setNewPassword = asyncHandler(async(req,res)=>{
+    try {
+
+		const chef = await Chef.findOne({ _id: req.params.id });
+		if (!chef) return res.status(400).send({ message: "Invalid link" });
+
+		const token = await Token.findOne({
+			userId: chef._id,
+			token: req.params.token,
+		});
+		if (!token) return res.status(400).send({ message: "Invalid link" });
+
+		if (!chef.emailVerified) chef.emailVerified = true;
+
+		chef.password = req.body.password;
+		await chef.save();
+		await token.remove();
+		res.status(200).send({ message: "Password reset successfully" });
+	} catch (error) {
+        console.log(error)
+		res.status(500).send({ message: "Internal Server Error" });
+	}
+})
+
+
+export {sendPasswordLink,verifyPasswordResetLink,setNewPassword}

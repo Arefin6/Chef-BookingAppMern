@@ -11,6 +11,7 @@ import { SlotProvider } from "./Context/SlotsContexnt";
 import Slots from './pages/Slots';
 import AddSlots from "./pages/AddSlots";
 import EmailVerify from "./components/EmailVerify";
+import ForgotPassword from './components/ForgetPassword';
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
             }
           />
           <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
+          <Route path="/forgetPassword" element={<ForgotPassword />} />
         </Routes>
       </main>
       <Footer />
