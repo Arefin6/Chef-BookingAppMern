@@ -21,7 +21,10 @@ const sendPasswordLink = asyncHandler(async(req,res)=>{
             }).save();
         }
         const url = `${process.env.BASE_URL}password-reset/${chef.id}/${token.token}`;
-                    await verificationEmail(chef.email, "Password Reset", url);             
+        const emailSent =  await verificationEmail(chef.email, "Password Reset", url);
+		if(emailSent){
+			res.status(200).send({ message: "Password Reset Link Sent to your Email" });
+		}             
 
     } catch (error) {
         console.log(error)

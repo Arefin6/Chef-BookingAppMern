@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../api";
 import styles from "../styles/forgetPassword.module.css";
+import Message from "./Message";
 
 const ForgotPassword = () => {
 	const [email, setEmail] = useState("");
@@ -14,6 +15,8 @@ const ForgotPassword = () => {
 			const { data } = await api.post(url,{ email });
 			setMsg(data.message);
 			setError("");
+			setMsg("Password ResSet Link Sent To your email")
+			window.alert("Password ResSet Link Sent To your email")
 		} catch (error) {
 			if (
 				error.response &&
@@ -24,10 +27,13 @@ const ForgotPassword = () => {
 				setMsg("");
 			}
 		}
+		
 	};
 
 	return (
 		<div className={styles.container}>
+			{msg && <Message variant="success">{msg}</Message>}
+			{error && <Message variant="danger">{error}</Message>}
 			<form className={styles.form_container} onSubmit={handleSubmit}>
 				<h1>Forgot Password</h1>
 				<input
@@ -39,8 +45,8 @@ const ForgotPassword = () => {
 					required
 					className={styles.input}
 				/>
-				{error && <div className={styles.error_msg}>{error}</div>}
-				{msg && <div className={styles.success_msg}>{msg}</div>}
+			
+				
 				<button type="submit" className={styles.green_btn}>
 					Submit
 				</button>

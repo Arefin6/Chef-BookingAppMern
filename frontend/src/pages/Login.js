@@ -5,7 +5,6 @@ import api from '../api';
 import Message from '../components/Message';
 
 
-
 const Login = () => {
      const [email,setEmail] = useState('')
      const [password,setPassword] = useState('')
@@ -51,8 +50,8 @@ const Login = () => {
                    ></Form.Control>
 
                </Form.Group>
-               <div className='d-flex justify-content-between'>
-                <Button type="submit" variant="dark" className='mt-3'>
+               <div className='d-flex justify-content-between mt-3'>
+                <Button type="submit" variant="dark">
                     Sign In
                 </Button>
                 <Link to="/forgetPassword">Forgot Password</Link>

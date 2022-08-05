@@ -12,6 +12,7 @@ import Slots from './pages/Slots';
 import AddSlots from "./pages/AddSlots";
 import EmailVerify from "./components/EmailVerify";
 import ForgotPassword from './components/ForgetPassword';
+import PasswordReset from "./components/PasswordReset";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           />
           <Route path="/users/:id/verify/:token" element={<EmailVerify />} />
           <Route path="/forgetPassword" element={<ForgotPassword />} />
+          <Route path="/password-reset/:id/:token" element={<PasswordReset />} />
         </Routes>
       </main>
       <Footer />
