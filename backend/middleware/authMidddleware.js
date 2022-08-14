@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import Chef from '../models/ChefModel';
+import Chef from '../models/ChefModel.js';
 import asyncHandler from 'express-async-handler'
 
 const protect = asyncHandler(async(req,res,next)=>{
@@ -27,4 +27,4 @@ const protect = asyncHandler(async(req,res,next)=>{
    }
 })
 
-export {protect}
+export default protect;

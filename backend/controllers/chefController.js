@@ -49,71 +49,56 @@ const authUser = asyncHandler(async(req,res)=>{
         console.log(error)
         res.status(500).send({ message: "Internal Server Error" });
     }
-
-    
-
-    // if(chef && (await chef.matchPassword(password))){
-    //     res.send({
-    //         _id:chef.id,
-    //         name:chef.name,
-    //         email:chef.email,
-    //         token:generateAuthToken(chef._id)
-    //     })
-    // }
-    // else{
-    //     res.status(401).send({message:"Invalid UserName Or Password"})
-    //     // throw new Error('Invalid email or password')
-    // }
-
 })
 
-// //Get userProfile
+//Get ChefProfile
 
-// const getUserProfile = asyncHandler(async(req,res)=>{
-//      const user = await User.findById(req.user._id)
-//      if(user){
-//          res.send({
-//             _id:user.id,
-//             name:user.name,
-//             email:user.email,
-//             isAdmin:user.isAdmin,
-//          })
-//      }
-//      else{
-//         res.status(404)
-//         throw new Error('Invalid user data') 
-//      }
-// })
+const getChefProfile = asyncHandler(async(req,res)=>{
+     const chef = await Chef.findById(req.headers._id)
+     if(chef){
+         res.send({
+            _id:chef.id,
+            name:chef.name,
+            email:chef.email,
+            details:chef.details,
+         })
+     }
+     else{
+        res.status(404)
+        throw new Error('Invalid user data') 
+     }
+})
 
-//Update User Profile
+//Update Chef Profile
 
 
-// const updateUserProfile = asyncHandler(async(req,res)=>{
-//     const user = await User.findById(req.user._id)
-//     if(user){
-//         user.name= req.body.name || user.name
-//         user.email = req.body.email || user.email
+const updateChefProfile = asyncHandler(async(req,res)=>{
+    const chef = await Chef.findById(req.chef._id)
+    if(chef){
+        chef.name= req.body.name || chef.name
+        chef.email = req.body.email || chef.email
+        chef.description = req.body.description || chef.description
 
-//         if(req.body.password){
-//             user.password = req.body.password
-//         }
+        if(req.body.password){
+            chef.password = req.body.password
+        }
 
-//         const updatedUser = await user.save()
+        const updatedChef = await chef.save()
 
-//         res.send({
-//            _id:updatedUser.id,
-//            name:updatedUser.name,
-//            email:updatedUser.email,
-//            isAdmin:updatedUser.isAdmin,
-//         })
-//     }
-//     else{
-//        res.status(404)
-//        throw new Error('Invalid user data') 
-//     }
-// })
+        res.send({
+           _id:updatedChef.id,
+           name:updatedChef.name,
+           email:updatedChef.email,
+           details:updatedChef.details,
+        })
+    }
+    else{
+       res.status(404)
+       throw new Error('Invalid user data') 
+    }
+})
 
-//Register User
+//Register Chef
 
 const registerChef = asyncHandler(async(req,res)=>{
 
@@ -230,13 +215,13 @@ const verifyToken = asyncHandler(async(req,res)=>{
 //         user.email = req.body.email || user.email 
 //         user.isAdmin = req.body.isAdmin
 
-//         const updatedUser = await user.save()
+//         const updatedChef = await user.save()
 
 //          res.send({
-//              id:updatedUser._id,
-//              name:updatedUser.name,
-//              email:updatedUser.email,
-//              isAdmin:updatedUser.isAdmin
+//              id:updatedChef._id,
+//              name:updatedChef.name,
+//              email:updatedChef.email,
+//              isAdmin:updatedChef.isAdmin
 //          })
 //      }
 //      else{
@@ -248,4 +233,4 @@ const verifyToken = asyncHandler(async(req,res)=>{
 
 
 
-export {authUser,registerChef,verifyToken}
+export {authUser,registerChef,verifyToken,getChefProfile,updateChefProfile}
