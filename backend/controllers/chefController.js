@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import generateAuthToken from '../utilites/generateAuthToken.js'
-import Slot from './../models/Solts.js';
+
 import Chef from './../models/ChefModel.js';
 import Token from './../models/token.js';
 import { verificationEmail } from '../utilites/sendMail.js';
@@ -54,7 +54,7 @@ const authUser = asyncHandler(async(req,res)=>{
 //Get ChefProfile
 
 const getChefProfile = asyncHandler(async(req,res)=>{
-     const chef = await Chef.findById(req.headers._id)
+     const chef = await Chef.findById(req.headers.id)
      if(chef){
          res.send({
             _id:chef.id,
@@ -73,11 +73,11 @@ const getChefProfile = asyncHandler(async(req,res)=>{
 
 
 const updateChefProfile = asyncHandler(async(req,res)=>{
-    const chef = await Chef.findById(req.chef._id)
+    const chef = await Chef.findById(req.headers.id)
     if(chef){
         chef.name= req.body.name || chef.name
         chef.email = req.body.email || chef.email
-        chef.description = req.body.description || chef.description
+        chef.details = req.body.details || chef.details
 
         if(req.body.password){
             chef.password = req.body.password

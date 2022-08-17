@@ -5,9 +5,13 @@ const slotSchema = mongoose.Schema({
         type:Date,
         required:true
     },
-    Time:{
+    StartTime:{
         type:String,
         required:true,
+    },
+    EndTime:{
+        type:String,
+        required:true, 
     },
     chef:{
         type:mongoose.Schema.Types.ObjectId,

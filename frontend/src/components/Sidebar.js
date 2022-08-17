@@ -17,6 +17,9 @@ const Sidebar = () => {
                <li>
                <Link to='/bookings' className='sidebar-link text-white'>Bookings</Link>
                </li>
+               <li>
+               <Link to='/profile' className='sidebar-link text-white'>Profile</Link>
+               </li>
            </ul>
         </div>
     );

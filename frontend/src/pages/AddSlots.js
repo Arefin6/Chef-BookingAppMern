@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
-import Sidebar from '../components/Sidebar';
 
 const AddSlots = () => {
 
     const [date,setDate] = useState();
-    const [time,setTime] = useState();
+    const [startTime,setStartTime] = useState();
+    const [endTime,setEndTime] = useState();
     const history = useNavigate();
     const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
 
     const submitHandler = async(e) =>{
         e.preventDefault()
         try {
-            const result =  await api.post('/slots/addSlot',{Date:date,Time:time,chef:userInfo._id})
+            const result =  await api.post('/slots/addSlot',{Date:date, StartTime:startTime, EndTime:endTime,chef:userInfo._id})
              if(result){
               history('/slots')
              }
@@ -24,9 +24,6 @@ const AddSlots = () => {
     }
     return (
         <Row>
-          <Col md={2}>
-            <Sidebar/>
-          </Col>  
                 <Col md={10}>
                 <h1 className='mt-5 mb-3'>Add A Slot</h1>
                 <Form onSubmit={submitHandler}>
@@ -39,10 +36,18 @@ const AddSlots = () => {
                     ></Form.Control>
                 </Form.Group>
                 <Form.Group controlId="time">
-                    <Form.Label>Time:</Form.Label>
-                    <Form.Control type="text" placeholder="10AM-6PM"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
+                    <Form.Label>StartTime:</Form.Label>
+                    <Form.Control type="text" placeholder="9AM"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                    required={true}
+                    ></Form.Control>
+                </Form.Group>
+                <Form.Group controlId="time">
+                    <Form.Label>EndTime:</Form.Label>
+                    <Form.Control type="text" placeholder="9AM"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
                     required={true}
                     ></Form.Control>
                 </Form.Group>

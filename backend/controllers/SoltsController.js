@@ -10,16 +10,17 @@ const getAllSlots = asyncHandler(async(req,res)=>{
 })
 const createSlots = asyncHandler(async(req,res)=>{
 
-    const {Date,Time,chef} = req.body
+    const {Date,StartTime,EndTime,chef} = req.body
 
     const slot = await Slot.create({
         Date,
-        Time,
+        StartTime,
+        EndTime,
         chef
     })
 
     if(slot){
-        res.status(201).json({message:"Recored Created"})
+        res.status(201).json({message:"Record Created"})
     }
     else{
         res.status(400)

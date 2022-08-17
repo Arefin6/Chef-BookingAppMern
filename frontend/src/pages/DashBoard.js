@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-import Sidebar from '../components/Sidebar';
+// import Sidebar from '../components/Sidebar';
 import api from '../api';
 
 const DashBoard = () => {
@@ -18,9 +18,9 @@ const DashBoard = () => {
 
     return (
         <Row>
-            <Col md={2}>
+            {/* <Col md={2}>
               <Sidebar/>
-            </Col>
+            </Col> */}
             <Col md={2} className="my-4 p-4">
                 <Card>
                   <Card.Body>

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useState } from 'react';
 import { useEffect } from 'react';
-import axios from './../api/index';
+import api from './../api/index';
 
  const SlotContext = createContext();
 
@@ -11,12 +11,12 @@ import axios from './../api/index';
 
     const config = {
       headers:{
-         id:userInfo._id
-      }
+         id:userInfo._id,
+      },
   }
 
     useEffect(()=>{
-       axios.get('/slots/getAll',config)
+       api.get('/slots/getAll',config)
        .then(res => setSlots(res))
     },[slots,config])
 

@@ -12,11 +12,12 @@ const ForgotPassword = () => {
 		e.preventDefault();
 		try {
 			const url = `/passReset`;
-			const { data } = await api.post(url,{ email });
-			setMsg(data.message);
-			setError("");
-			setMsg("Password ResSet Link Sent To your email")
-			window.alert("Password ResSet Link Sent To your email")
+			const result = await api.post(url,{ email });
+			if(result){
+				setMsg(result.data.message);
+				setError("");
+		      console.log(result)		
+			}
 		} catch (error) {
 			if (
 				error.response &&
