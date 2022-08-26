@@ -2,9 +2,11 @@ import  mongoose  from 'mongoose'
 
 const slotSchema = mongoose.Schema({
     Date:{
-        type:Date,
-        required:true
+        type:Date
     },
+    Days:[
+      {dayName:{ type: String }}
+    ],
     StartTime:{
         type:String,
         required:true,

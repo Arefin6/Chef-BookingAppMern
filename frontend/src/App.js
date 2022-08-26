@@ -15,6 +15,7 @@ import ForgotPassword from './components/ForgetPassword';
 import PasswordReset from "./components/PasswordReset";
 import Profile from "./pages/Profile";
 import Layout from './components/Layout';
+import AddSlotsBYDay from "./pages/AddSlotByDay";
 
 function App() {
   return (
@@ -47,11 +48,21 @@ function App() {
                   }
                 />
                 <Route
-                  path="/add-slots"
+                  path="/add-slots-date"
                   element={
                       <SlotProvider>
                           <PrivateRoute>
                             <AddSlots />
+                        </PrivateRoute>
+                      </SlotProvider>   
+                  }
+                />
+                 <Route
+                  path="/add-slots-day"
+                  element={
+                      <SlotProvider>
+                          <PrivateRoute>
+                            <AddSlotsBYDay/>
                         </PrivateRoute>
                       </SlotProvider>   
                   }

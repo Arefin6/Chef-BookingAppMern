@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import SelectSlots from '../components/SelectSlots';
 
 const AddSlots = () => {
 
@@ -25,7 +26,7 @@ const AddSlots = () => {
     return (
         <Row>
                 <Col md={10}>
-                <h1 className='mt-5 mb-3'>Add A Slot</h1>
+                  <SelectSlots/>  
                 <Form onSubmit={submitHandler}>
                 <Form.Group controlId="date">
                     <Form.Label>Date:</Form.Label>
