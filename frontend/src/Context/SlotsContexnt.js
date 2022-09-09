@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useState } from 'react';
 import { useEffect } from 'react';
@@ -13,14 +14,21 @@ import api from './../api/index';
       headers:{
          id:userInfo._id,
       },
-  }
+      }
+      const fetchSlotData = async() =>{
+         const response = await api.get('/slots/getAll',config)
+         if(response){
+            setSlots(response.data)
+         }
+         
+       }
+       const values = {slots}
+    
+       useEffect(()=>{
+         fetchSlotData()
+       },[]) 
 
-    useEffect(()=>{
-       api.get('/slots/getAll',config)
-       .then(res => setSlots(res))
-    },[slots,config])
-
-    const values = {slots}
+    
 
     // eslint-disable-next-line react/destructuring-assignment
     return (<SlotContext.Provider value={values}>

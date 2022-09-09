@@ -1,10 +1,9 @@
 import  mongoose  from 'mongoose'
 
 const bookingSchema = mongoose.Schema({
-    customer:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:"Customer"
+    customerEmail:{
+        type:String,
+        required:true
     },
     chef:{
         type:mongoose.Schema.Types.ObjectId,
@@ -16,13 +15,11 @@ const bookingSchema = mongoose.Schema({
         required:true,
         ref:"Slot"  
     },
-    status:{
-        type:Number,
+    isApproved:{
+        type:Boolean,
         required:true,
-        default:0
+        default:false
     }
- },{
-   timestamps:true 
  }
 )
 

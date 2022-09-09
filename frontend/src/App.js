@@ -16,6 +16,9 @@ import PasswordReset from "./components/PasswordReset";
 import Profile from "./pages/Profile";
 import Layout from './components/Layout';
 import AddSlotsBYDay from "./pages/AddSlotByDay";
+import EditSlotByDay from "./pages/EditSlotByDay";
+import EditSlotByDate from './pages/EditSlotByDate';
+import Bookings from './pages/Bookings';
 
 function App() {
   return (
@@ -34,6 +37,22 @@ function App() {
                   element={
                       <PrivateRoute>
                         <DashBoard />
+                      </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/slot/edit-by-day/:id"
+                  element={
+                      <PrivateRoute>
+                        <EditSlotByDay />
+                      </PrivateRoute>
+                  }
+                />
+                 <Route
+                  path="/slot/edit-by-date/:id"
+                  element={
+                      <PrivateRoute>
+                        <EditSlotByDate />
                       </PrivateRoute>
                   }
                 />
@@ -67,8 +86,22 @@ function App() {
                       </SlotProvider>   
                   }
                 />
-             
-              <Route path="/profile" element={<Profile />} />
+               
+                <Route
+                 path="/profile" element={
+                 <PrivateRoute>
+                   <Profile />
+                 </PrivateRoute>
+                 } />
+
+                <Route
+                  path="/bookings" element={
+                  <PrivateRoute>
+                    <Bookings />
+                  </PrivateRoute>
+                 } />
+
+              {/* <PrivateRoute path="/bookings" element={<Bookings />} /> */}
           </Route >
           
         </Routes>

@@ -4,8 +4,9 @@ const slotSchema = mongoose.Schema({
     Date:{
         type:Date
     },
-    Days:[
-      {dayName:{ type: String }}
+    Days:[{
+        type:String,
+    }
     ],
     StartTime:{
         type:String,

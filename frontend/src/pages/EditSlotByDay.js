@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../api";
-import SelectSlots from "../components/SelectSlots";
-import Checkbox from "./../components/Checkbox";
+import Checkbox from "../components/Checkbox";
 
-const AddSlotsBYDay = () => {
+const EditSlotByDay = () => {
   const items = [
     "Saturday",
     "SunDay",
@@ -17,11 +16,31 @@ const AddSlotsBYDay = () => {
     "FriDay",
   ];
   const [selectedCheckboxes, setSelectedCheckboxes] = useState(new Set());
+  const [selectedDays, setSelectedDays] = useState([]);
 
   const [startTime, setStartTime] = useState();
   const [endTime, setEndTime] = useState();
   const history = useNavigate();
-  const userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+  const {id} = useParams()
+
+  const config = {
+    headers:{
+       id
+    },
+}  
+
+
+  const getSingleSlot = async ()=>{
+    const result =  await api.get('/slots/getSlot',config)
+    setSelectedDays(result.data.Days)
+    setStartTime(result.data.StartTime)
+    setEndTime(result.data.EndTime)
+  }
+
+
+  useEffect(()=>{
+    getSingleSlot()
+  },[])
 
   const toggleCheckbox = (label) => {
     if (selectedCheckboxes.has(label)) {
@@ -37,6 +56,7 @@ const AddSlotsBYDay = () => {
         label={label}
         handleCheckboxChange={toggleCheckbox}
         key={label}
+        checked={selectedDays}
       />
     );
   };
@@ -48,26 +68,20 @@ const AddSlotsBYDay = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const result = await api.post("/slots/addSlot", {
-        Days: [...selectedCheckboxes],
-        StartTime: startTime,
-        EndTime: endTime,
-        chef: userInfo._id,
-      });
-      if (result) {
-         history('/slots')
-      }
-    } catch (error) {
-      console.log(error);
-    }
+      const result =  await api.put('/slots/updateSlot',{Days:[...selectedCheckboxes],StartTime:startTime, EndTime:endTime},config)
+       if(result){
+        history('/slots')
+       }
+     } catch (error) {
+         console.log(error)
+     } 
   };
   return (
     <Row>
       <Col md={10}>
-        <SelectSlots />
         <Form onSubmit={submitHandler}>
           <Form.Group>
-            <div className="d-flex justify-content-between mb-3">
+            <div className="d-flex justify-content-between mb-3 mt-4">
               {createCheckboxes()}
             </div>
           </Form.Group>
@@ -76,7 +90,7 @@ const AddSlotsBYDay = () => {
             <Form.Control
               type="text"
               placeholder="9AM"
-              value={startTime}
+              defaultValue={startTime}
               onChange={(e) => setStartTime(e.target.value)}
               required={true}
             ></Form.Control>
@@ -86,7 +100,7 @@ const AddSlotsBYDay = () => {
             <Form.Control
               type="text"
               placeholder="9AM"
-              value={endTime}
+              defaultValue={endTime}
               onChange={(e) => setEndTime(e.target.value)}
               required={true}
             ></Form.Control>
@@ -100,4 +114,4 @@ const AddSlotsBYDay = () => {
   );
 };
 
-export default AddSlotsBYDay;
+export default EditSlotByDay;

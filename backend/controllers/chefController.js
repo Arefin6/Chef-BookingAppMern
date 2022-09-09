@@ -71,7 +71,6 @@ const getChefProfile = asyncHandler(async(req,res)=>{
 
 //Update Chef Profile
 
-
 const updateChefProfile = asyncHandler(async(req,res)=>{
     const chef = await Chef.findById(req.headers.id)
     if(chef){

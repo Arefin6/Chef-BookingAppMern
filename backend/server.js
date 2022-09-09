@@ -4,6 +4,7 @@ import connectDb from './config/db.js';
 import uploadRoutes from './routes/uploadRoute.js';
 import chefRoutes from './routes/chefRoutes.js';
 import slotRoutes from './routes/soltsRoute.js';
+import bookingSlot from './routes/BookingRoutes.js';
 import passwordResetRoutes from './routes/passwordResetRoute.js';
 import cors from 'cors';
 import path from 'path';
@@ -21,6 +22,7 @@ app.use('/api/chef',chefRoutes)
 app.use('/api/passReset',passwordResetRoutes)
 app.use('/api/slots',slotRoutes)
 app.use('/api/upload',uploadRoutes)
+app.use('/api/booking',bookingSlot)
 app.get('/api/count',countDocuments);
 
 const __dirname = path.resolve()
