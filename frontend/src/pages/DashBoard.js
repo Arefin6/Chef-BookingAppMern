@@ -1,11 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import { Card, Col, Row } from 'react-bootstrap';
-// import Sidebar from '../components/Sidebar';
 import api from '../api';
 
 const DashBoard = () => {
 
-    const [counts,setCounts] = useState({})  
+    const [counts,setCounts] = useState({})
+    const [slotsCount,setSlotCount] = useState(0)
+    const [bookingCount,setBookingCount] = useState(0)
+    const [approvedBookingCount,setApprovedBookingCount] = useState(0)        
+    const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    const config = {
+      headers:{
+         id:userInfo._id,
+      },
+      }
+      const fetchSlotData = async() =>{
+         const response = await api.get('/slots/getAll',config)
+         if(response){
+            setSlotCount(response.data?.length)
+         }
+         
+       }
+
+      const  fetchBooingData = async() =>{
+
+        const response = await api.get('/booking/getAll',config)
+         if(response){
+             const filterByBooking = response.data.filter(data => data.isApproved === true)
+            setBookingCount(response.data?.length)
+            setApprovedBookingCount(filterByBooking?.length)
+         }
+
+      }
 
     useEffect(()=>{
         const fetchCount = async() =>{
@@ -13,20 +40,20 @@ const DashBoard = () => {
         setCounts(response.data);
        }
        fetchCount()
+       fetchSlotData()
+       fetchBooingData()
     },[])
+
 
 
     return (
         <Row>
-            {/* <Col md={2}>
-              <Sidebar/>
-            </Col> */}
             <Col md={2} className="my-4 p-4">
                 <Card>
                   <Card.Body>
-                    <Card.Title className='text-primary'>Num of Chefs</Card.Title>
+                    <Card.Title className='text-primary'>Num of Slots</Card.Title>
                     <Card.Text className='text-primary'>
-                       {counts.chefCount}
+                       {slotsCount}
                    </Card.Text>
                   </Card.Body>
                 </Card>
@@ -34,9 +61,9 @@ const DashBoard = () => {
             <Col md={2} className="my-4 p-4">
                 <Card>
                   <Card.Body>
-                    <Card.Title className='text-secondary'>Num of Slots </Card.Title>
+                    <Card.Title className='text-secondary'>Num of Booking</Card.Title>
                     <Card.Text className='text-secondary'>
-                      {counts.slotsCount}
+                      {bookingCount}
                    </Card.Text>
                   </Card.Body>
                 </Card>
@@ -46,7 +73,7 @@ const DashBoard = () => {
                   <Card.Body>
                     <Card.Title className='text-danger'>Num of Customers</Card.Title>
                     <Card.Text className='text-danger'>
-                       0
+                       {counts?.customersCount}
                    </Card.Text>
                   </Card.Body>
                 </Card>
@@ -54,9 +81,9 @@ const DashBoard = () => {
             <Col md={2} className="my-4 p-4">
                 <Card>
                   <Card.Body>
-                    <Card.Title className='text-warning'>Number of Bookings </Card.Title>
-                    <Card.Text className='text-warning'>
-                       {counts.BookingsCount}
+                    <Card.Title className='text-success'>Number of Approved Booking</Card.Title>
+                    <Card.Text className='text-success'>
+                       {approvedBookingCount}
                    </Card.Text>
                   </Card.Body>
                 </Card>

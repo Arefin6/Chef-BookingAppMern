@@ -1,42 +1,74 @@
-import React from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react';
 import { Col, Row, Table } from 'react-bootstrap';
+import Moment from 'react-moment';
+import moment from 'moment/min/moment-with-locales';
+import api from '../api';
+import { Button } from 'react-bootstrap';
 
 const Bookings = () => {
+
+   const  [booingInfo,setBookingInfo] = useState([])
+
+   Moment.globalMoment = moment;
+   Moment.globalFormat = 'D MMM YYYY';
+
+   const userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+
+    const config = {
+      headers:{
+         id:userInfo._id,
+      }
+    }
+
+  useEffect(()=>{
+    api.get('booking/getAll',config)
+    .then(res => setBookingInfo(res.data))        
+ },[])
+
+  const handleApprove = async(id) =>{
+     const response = await api.put(`booking/update/booking/${id}`,config)
+     if(response){
+      window.location.reload()
+     }
+
+  }
+
+
     return (
         <Row>  
         <Col md={10}>
         <Table striped bordered hover responsive className="table-sm mt-5">
              <thead>
                  <tr>
-                     <th>DATE/Day</th> 
+                     <th>Customer Email</th> 
+                     <th>Slot DATE/Day</th> 
                      <th>Start Time</th> 
                      <th>End Time</th> 
-                     <th>Edit</th>
-                     <th>Delete</th> 
+                     <th>Status</th>
                  </tr>
              </thead>
              <tbody>
-                 {/* {slots?.map(data => (
+                 {booingInfo?.map(data => (
                      <tr key ={data._id}>
-                       <td>
-                         {data.Date ? <Moment>{data.Date}</Moment> : data.Days.join(', ')} 
+                      <td>
+                         {data.customerEmail} 
                        </td>
                        <td>
-                         {data.StartTime}
+                         {data.slot.Date ? <Moment>{data.slot.Date}</Moment> : data.slot.Days.join(', ')} 
                        </td>
                        <td>
-                         {data.EndTime}
+                         {data.slot.StartTime}
                        </td>
                        <td>
-                         <Link to={data.Date ? `/slot/edit-by-date/${data._id}`: `/slot/edit-by-day/${data._id}`}>
-                           <Button>Edit</Button>
-                         </Link>
+                         {data.slot.EndTime}
                        </td>
-                       <td>
-                        <Button variant='danger' onClick={() => handleDelete(data._id)}>Delete</Button>
+                        <td>
+                          {data.isApproved ? "Approved":<Button variant='success' onClick={() => handleApprove(data._id)} >Approve</Button>}
                        </td>
+                      
                      </tr>
-                 ))} */}
+                 ))}
              </tbody>
 
          </Table>

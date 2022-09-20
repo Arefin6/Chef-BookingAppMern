@@ -20,7 +20,7 @@ const Profile = () => {
          id:userInfo._id,
          Authorization:`Bearer ${userInfo.token}`
       }
-  }
+    }
 
     useEffect(()=>{
        api.get('/chef/profile',config)
