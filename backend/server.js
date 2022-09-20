@@ -16,7 +16,7 @@ const app = express()
 app.use (cors());
 app.use(express.json())
 
-const Port = 8080;
+const Port = process.env.PORT;
 
 app.use('/api/chef',chefRoutes)
 app.use('/api/passReset',passwordResetRoutes)
