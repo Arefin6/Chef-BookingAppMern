@@ -33,10 +33,10 @@ app.get("/api/test", (req, res) => {
 });
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'frontend/build')))
+  app.use(express.static(path.join(__dirname, '../frontend/build')))
 
     app.get('*', function(_, res) {
-      res.sendFile(path.join(__dirname, 'frontend/build/index.html'), function(err) {
+      res.sendFile(path.join(__dirname, '../frontend/build/index.html'), function(err) {
         if (err) {
           res.status(500).send(err)
         }
